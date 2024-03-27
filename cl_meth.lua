@@ -86,8 +86,16 @@ local function cancelProd()
 end
 
 local function addRadialEvent()
-    if GetEntityModel(cache.vehicle) ~= `journey` then return end
-    
+    local allowed = false
+    for _, model in ipairs(Config.AllowedVehicles) do
+        if GetEntityModel(cache.vehicle) == GetHashKey(model) then
+            allowed = true
+            break
+        end
+    end
+
+    if not allowed then return end
+
     if Config.UseOxRadial then
         lib.addRadialItem({
             id = 'methvan',
